@@ -14,11 +14,9 @@ async function sendMessage() {
     appendMessage("You", userInput);
 
     const response = await fetch("/.netlify/functions/openaichat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: userInput })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userInput })
     });
 
     const data = await response.json();
