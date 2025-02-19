@@ -23,8 +23,8 @@ export async function handler(event) {
             }
         ];
       
-        // Use the batch endpoint for Anthropic's Messages API.
-        const response = await fetch("https://api.anthropic.com/v1/beta/messages/batches", {
+        // Use the Messages API endpoint instead of the batch endpoint.
+        const response = await fetch("https://api.anthropic.com/v1/beta/messages", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -32,16 +32,9 @@ export async function handler(event) {
                 "anthropic-version": "2023-06-01" // confirm this value per current docs
             },
             body: JSON.stringify({
-                requests: [
-                    {
-                        custom_id: "request-1",
-                        params: {
-                            model: "claude-3-5-haiku-20241022",
-                            max_tokens: 300,
-                            messages: messages
-                        }
-                    }
-                ]
+                model: "claude-3-5-haiku-20241022",
+                messages: messages,
+                max_tokens: 300
             })
         });
       
@@ -55,9 +48,7 @@ export async function handler(event) {
         }
       
         const data = await response.json();
-        // Adjust this according to the actual response structure
-        // Here we assume the batch response returns an array of responses under "responses"
-        if (!data.responses || !data.responses[0] || !data.responses[0].completion) {
+        if (!data.completion) {
             console.error("Unexpected Anthropic API response:", data);
             return {
                 statusCode: 500,
@@ -67,7 +58,7 @@ export async function handler(event) {
       
         return {
             statusCode: 200,
-            body: JSON.stringify({ reply: data.responses[0].completion })
+            body: JSON.stringify({ reply: data.completion })
         };
     } catch (error) {
         console.error("Error in function:", error);
