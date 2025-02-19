@@ -1,44 +1,47 @@
 export async function handler(event) {
-    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-    if (!OPENAI_API_KEY) {
+    const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+    if (!ANTHROPIC_API_KEY) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ reply: "Server configuration error: API key not set." })
+            body: JSON.stringify({ reply: "Server configuration error: Anthropic API key not set." })
         };
     }
 
     try {
         const requestBody = JSON.parse(event.body);
 
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        // Anthropic API expects a prompt with conversation context.
+        const prompt = `Human: ${requestBody.message}\nAssistant:`;
+
+        // Call Anthropic's Claude API
+        const response = await fetch("https://api.anthropic.com/v1/complete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${OPENAI_API_KEY}`
+                "X-API-Key": ANTHROPIC_API_KEY
             },
             body: JSON.stringify({
-                model: "gpt-3.5-turbo",
-                messages: [
-                    { role: "system", content: "You are a computer science teacher assistant who will give me (your student) advice on how to build a video game using arcade.makecode.com. I will be using the block-based system, so as you give code recommendations/suggestions, you should cater them to the blocks needed and tell me where they can be found in each category. I want to start with an idea and explain the basics of what I hope to create. I'd like you to give me ideas along the way. Can you ask me questions (one at a time) so that we are both on the same page moving forward? Then we can begin coding." },
-                    { role: "user", content: requestBody.message }
-                ]
+                prompt: prompt,
+                model: "claude-v1", // update to the desired version per Anthropic documentation
+                max_tokens_to_sample: 300,
+                // add other parameters as needed
             })
         });
         
         // Check for non-OK responses
         if (!response.ok) {
             const errorText = await response.text();
-            console.error("Error from OpenAI API:", errorText);
+            console.error("Error from Anthropic API:", errorText);
             return {
                 statusCode: response.status,
-                body: JSON.stringify({ reply: "Error calling OpenAI API." })
+                body: JSON.stringify({ reply: "Error calling Anthropic API." })
             };
         }
 
         const data = await response.json();
-        // Check data shape before accessing it
-        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-            console.error("Unexpected API response:", data);
+        // Anthropic's API returns a field called completion.
+        if (!data.completion) {
+            console.error("Unexpected Anthropic API response:", data);
             return {
                 statusCode: 500,
                 body: JSON.stringify({ reply: "Unexpected API response." })
@@ -47,7 +50,7 @@ export async function handler(event) {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ reply: data.choices[0].message.content })
+            body: JSON.stringify({ reply: data.completion })
         };
     } catch (error) {
         console.error("Error in function:", error);
