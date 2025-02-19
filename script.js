@@ -1,3 +1,12 @@
+function appendMessage(sender, message) {
+    const chatBox = document.getElementById("chat-box");
+    if (chatBox) {
+        const messageElem = document.createElement("div");
+        messageElem.textContent = sender + ": " + message;
+        chatBox.appendChild(messageElem);
+    }
+}
+
 async function sendMessage() {
     const userInput = document.getElementById("user-input").value;
     if (!userInput) return;
