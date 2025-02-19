@@ -6,9 +6,10 @@ export async function handler(event) {
             body: JSON.stringify({ reply: "Server configuration error: Anthropic API key not set." })
         };
     }
+  
     try {
         const requestBody = JSON.parse(event.body);
-
+      
         // Build a messages array with a system message and the user message.
         const messages = [
             {
@@ -21,9 +22,9 @@ export async function handler(event) {
                 content: requestBody.message
             }
         ];
-
-        // Using the Messages API endpoint for models that require it.
-        const response = await fetch("https://api.anthropic.com/v1/beta/messages", {
+      
+        // Use the batch endpoint for Anthropic's Messages API.
+        const response = await fetch("https://api.anthropic.com/v1/beta/messages/batches", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,12 +32,19 @@ export async function handler(event) {
                 "anthropic-version": "2023-06-01" // confirm this value per current docs
             },
             body: JSON.stringify({
-                model: "claude-3-5-haiku-20241022",
-                messages: messages,
-                max_tokens: 300
+                requests: [
+                    {
+                        custom_id: "request-1",
+                        params: {
+                            model: "claude-3-5-haiku-20241022",
+                            max_tokens: 300,
+                            messages: messages
+                        }
+                    }
+                ]
             })
         });
-
+      
         if (!response.ok) {
             const errorText = await response.text();
             console.error("Error from Anthropic API:", errorText);
@@ -45,19 +53,21 @@ export async function handler(event) {
                 body: JSON.stringify({ reply: "Error calling Anthropic API." })
             };
         }
-
+      
         const data = await response.json();
-        if (!data.completion) {
+        // Adjust this according to the actual response structure
+        // Here we assume the batch response returns an array of responses under "responses"
+        if (!data.responses || !data.responses[0] || !data.responses[0].completion) {
             console.error("Unexpected Anthropic API response:", data);
             return {
                 statusCode: 500,
                 body: JSON.stringify({ reply: "Unexpected API response." })
             };
         }
-
+      
         return {
             statusCode: 200,
-            body: JSON.stringify({ reply: data.completion })
+            body: JSON.stringify({ reply: data.responses[0].completion })
         };
     } catch (error) {
         console.error("Error in function:", error);
