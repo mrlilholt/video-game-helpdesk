@@ -9,26 +9,22 @@ export async function handler(event) {
 
     try {
         const requestBody = JSON.parse(event.body);
-
-        // Anthropic API expects a prompt with conversation context.
         const prompt = `Human: ${requestBody.message}\nAssistant:`;
 
-        // Call Anthropic's Claude API
         const response = await fetch("https://api.anthropic.com/v1/complete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-API-Key": ANTHROPIC_API_KEY
+                "X-API-Key": ANTHROPIC_API_KEY,
+                "anthropic-version": "2023-06-01" // update the version as needed per documentation
             },
             body: JSON.stringify({
                 prompt: prompt,
-                model: "claude-v1", // update to the desired version per Anthropic documentation
-                max_tokens_to_sample: 300,
-                // add other parameters as needed
+                model: "claude-v1",
+                max_tokens_to_sample: 300
             })
         });
-        
-        // Check for non-OK responses
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error("Error from Anthropic API:", errorText);
@@ -39,7 +35,6 @@ export async function handler(event) {
         }
 
         const data = await response.json();
-        // Anthropic's API returns a field called completion.
         if (!data.completion) {
             console.error("Unexpected Anthropic API response:", data);
             return {
