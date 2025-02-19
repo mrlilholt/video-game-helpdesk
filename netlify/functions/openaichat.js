@@ -9,8 +9,13 @@ export async function handler(event) {
 
     try {
         const requestBody = JSON.parse(event.body);
+
+        // Update the prompt so that it includes the system message,
+        // followed by two newlines and a "Human:" turn.
         const prompt = `System: You are a computer science teacher assistant who will give me (your student) advice on how to build a video game using arcade.makecode.com. I will be using the block-based system, so as you give code recommendations/suggestions, you should cater them to the blocks needed and tell me where they can be found in each category. I want to start with an idea and explain the basics of what I hope to create. I'd like you to give me ideas along the way. Can you ask me questions (one at a time) so that we are both on the same page moving forward? Then we can begin coding.
+
 Human: ${requestBody.message}
+ 
 Assistant:`;
 
         const response = await fetch("https://api.anthropic.com/v1/complete", {
