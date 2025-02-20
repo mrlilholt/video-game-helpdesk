@@ -1,86 +1,107 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next&display=swap');
 
 body {
-    font-family: 'Atkinson Hyperlegible Next', sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
 }
 
 /* Center everything */
 #wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px; /* some padding to avoid touching screen edges on mobile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 /* Main container lays out left panel and chat container side by side */
 #main-container {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    max-width: 900px;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-/* Left panel for logo and buttons; flex column to stack them vertically */
+/* Left panel for logo and buttons; flex column */
 #left-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: #1976d2; /* Material Blue 700 */
+  padding: 20px;
 }
 
 /* Keep logo fixed at 250x250 px */
 #logo {
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* Side buttons styling */
 #side-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 #side-buttons button {
-    padding: 10px 15px;
-    background: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
+  padding: 10px 15px;
+  background: #fff;
+  color: #1976d2;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#side-buttons button:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Chat container styling */
 #chat-container {
-    flex: 1;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 /* Chat box styling */
 #chat-box {
-    height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #fff;
-    text-align: left;
-    margin-bottom: 10px;
+  flex: 1;
+  height: 300px;
+  overflow-y: auto;
+  border: none;
+  padding: 10px;
+  background-color: #f5f5f5;
+  margin-bottom: 10px;
+  border-radius: 4px;
 }
 
+/* Message bubble styles */
 .user-message {
-  background-color: gray;
-  color: white;
+  background-color: #424242; /* Dark gray */
+  color: #fff;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 16px;
   margin-bottom: 10px;
   display: inline-block;
   max-width: 80%;
@@ -88,49 +109,79 @@ body {
 }
 
 .api-message {
-  background-color: #f0f0f0;
-  color: black;
+  background-color: #e0e0e0;
+  color: #212121;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 16px;
   margin-bottom: 10px;
   display: inline-block;
   max-width: 80%;
   word-wrap: break-word;
 }
 
-/* Input and button styling for chat container */
-input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    box-sizing: border-box;
+.system-message {
+  background-color: #eeeeee;
+  color: #555;
+  padding: 10px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
-button {
-    padding: 10px 15px;
-    background: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* Input and send button styling for chat container */
+#chat-container input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
 }
 
-/* Make layout responsive for mobile */
+#chat-container input:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+#chat-container button {
+  padding: 12px 20px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#chat-container button:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive layout for mobile */
 @media (max-width: 700px) {
-    #main-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    #left-panel {
-        width: 100%;
-    }
-    
-    #chat-container {
-        width: 100%;
-    }
-    
-    #logo {
-        width: 200px;
-        height: 200px;
-    }
+  #main-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #left-panel {
+    width: 100%;
+  }
+  
+  #chat-container {
+    width: 100%;
+  }
+  
+  #logo {
+    width: 200px;
+    height: 200px;
+  }
 }
