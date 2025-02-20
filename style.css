@@ -52,6 +52,28 @@ body {
     margin-bottom: 10px;
 }
 
+.user-message {
+  background-color: gray;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.api-message {
+  background-color: #f0f0f0;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
 /* Input and button styling */
 input {
     width: 80%;
