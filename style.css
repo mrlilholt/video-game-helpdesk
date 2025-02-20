@@ -34,7 +34,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  background: #1976d2; /* Material Blue 700 */
+  background: #ffffff; /* changed to white */
   padding: 20px;
 }
 
@@ -57,9 +57,9 @@ body {
 
 #side-buttons button {
   padding: 10px 15px;
-  background: #fff;
-  color: #1976d2;
-  border: none;
+  background: #ffffff;  /* white background */
+  color: #1976d2;       /* keep the blue text for contrast */
+  border: 1px solid #1976d2; /* optional: add a blue border */
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
