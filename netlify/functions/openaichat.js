@@ -22,7 +22,7 @@ export async function handler(event) {
             }
         ];
       
-        const response = await fetch("https://api.anthropic.com/v1/beta/messages", {
+        const response = await fetch("https://api.anthropic.com/v1/messages", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export async function handler(event) {
                 "anthropic-version": "2023-06-01" // confirm this version per current docs
             },
             body: JSON.stringify({
-                model: "claude-3-5-haiku-20241022", // the model to use
+                model: "claude-3-haiku-20240307", // the model to use
                 messages: messages,
                 max_tokens: 300
             })
