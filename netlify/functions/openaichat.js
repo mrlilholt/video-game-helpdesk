@@ -10,12 +10,11 @@ export async function handler(event) {
     try {
         const requestBody = JSON.parse(event.body);
         
-        // Build the messages array for the Messages API.
+        // Define the system message separately.
+        const systemMessage = "You are a computer science teacher assistant who will give me (your student) advice on how to build a video game using arcade.makecode.com. I will be using the block-based system, so as you give code recommendations/suggestions, you should cater them to the blocks needed and tell me where they can be found in each category. I want to start with an idea and explain the basics of what I hope to create. I'd like you to give me ideas along the way. Can you ask me questions (one at a time) so that we are both on the same page moving forward? Then we can begin coding.";
+        
+        // Now, include only user messages in the messages array.
         const messages = [
-            {
-                role: "system",
-                content: "You are a computer science teacher assistant who will give me (your student) advice on how to build a video game using arcade.makecode.com. I will be using the block-based system, so as you give code recommendations/suggestions, you should cater them to the blocks needed and tell me where they can be found in each category. I want to start with an idea and explain the basics of what I hope to create. I'd like you to give me ideas along the way. Can you ask me questions (one at a time) so that we are both on the same page moving forward? Then we can begin coding."
-            },
             {
                 role: "user",
                 content: requestBody.message
@@ -27,10 +26,11 @@ export async function handler(event) {
             headers: {
                 "Content-Type": "application/json",
                 "X-API-Key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01" // confirm this version per current docs
+                "anthropic-version": "2023-06-01"
             },
             body: JSON.stringify({
-                model: "claude-3-haiku-20240307", // the model to use
+                model: "claude-3-haiku-20240307",
+                system: systemMessage, // top-level system message
                 messages: messages,
                 max_tokens: 300
             })
