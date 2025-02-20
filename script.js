@@ -28,6 +28,9 @@ function appendMessage(sender, message) {
     }
     messageElem.textContent = sender + ": " + message;
     chatBox.appendChild(messageElem);
+    
+    // Auto-scroll to the bottom of the chat box after adding a message
+    chatBox.scrollTop = chatBox.scrollHeight;
   }
 }
 
