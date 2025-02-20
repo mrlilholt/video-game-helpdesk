@@ -46,7 +46,8 @@ export async function handler(event) {
         }
       
         const data = await response.json();
-        if (!data.completion) {
+        // Use data.content (an array) instead of data.completion
+        if (!data.content) {
             console.error("Unexpected Anthropic API response:", data);
             return {
                 statusCode: 500,
@@ -54,9 +55,12 @@ export async function handler(event) {
             };
         }
       
+        // Join all text segments (if there are multiple)
+        const completionText = data.content.map(segment => segment.text).join('');
+      
         return {
             statusCode: 200,
-            body: JSON.stringify({ reply: data.completion })
+            body: JSON.stringify({ reply: completionText })
         };
     } catch (error) {
         console.error("Error in function:", error);
