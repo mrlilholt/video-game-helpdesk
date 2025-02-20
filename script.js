@@ -2,10 +2,12 @@
 let currentEndpoint = "/.netlify/functions/openaichat";
 
 function setEndpoint(key) {
-  if (key === "video") {
+  if (key === "videogame") {
     currentEndpoint = "/.netlify/functions/openaichat";
   } else if (key === "robotics") {
     currentEndpoint = "/.netlify/functions/openaichatrobot";
+  } else if (key === "interdisciplinary") {
+    currentEndpoint = "/.netlify/functions/openaichatInterdisciplinary";
   }
   // Optionally, clear previous messages or show a notification
   const chatBox = document.getElementById("chat-box");

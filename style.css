@@ -56,13 +56,13 @@ body {
 }
 
 #side-buttons button {
-  padding: 10px 15px;
-  background: #ffffff;  /* white background */
-  color: #1976d2;       /* keep the blue text for contrast */
-  border: 1px solid #1976d2; /* optional: add a blue border */
+  padding: 8px 10px;          /* reduced padding */
+  background: #ffffff;        /* white background */
+  color: #1976d2;             /* blue text */
+  border: 1px solid #1976d2;   /* blue border */
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;            /* smaller font size */
   font-weight: 500;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
