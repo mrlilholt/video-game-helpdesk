@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next&display=swap');
+
+body {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* New outer wrapper to center everything vertically and horizontally */
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px; /* some padding to avoid touching screen edges on mobile */
+}
+
+/* Main container - logo on the left, chat container on the right */
+#main-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Ensure the logo does not exceed its container */
+#logo {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+
+/* Chat container with white background and some styling */
+#chat-container {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Chat box styling */
+#chat-box {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.user-message {
+  background-color: gray;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.api-message {
+  background-color: #f0f0f0;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+/* Input and button styling */
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 15px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 700px) {
+    #main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #logo {
+        width: 60%;
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+    
+    #chat-container {
+        width: 100%;
+    }
+}
